@@ -1,3 +1,6 @@
+console.log("__dirname:", __dirname);
+console.log("PUBLIC_DIR:", PUBLIC_DIR);
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -5,7 +8,6 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-// MIME types for different file extensions
 const MIME_TYPES = {
     '.html': 'text/html',
     '.css': 'text/css',
@@ -13,7 +15,6 @@ const MIME_TYPES = {
     '.json': 'application/json'
 };
 
-// Create HTTP server
 const server = http.createServer((req, res) => {
     console.log(`${req.method} ${req.url}`);
 
@@ -28,7 +29,6 @@ const server = http.createServer((req, res) => {
         else if (req.url === '/contact') {
              filePath = path.join(PUBLIC_DIR, 'contact.html');
         }
-        } 
         // TODO: Add 'else if' for '/about' -> 'about.html'
         // Example: else if (req.url === '/about') { filePath = path.join(PUBLIC_DIR, 'about.html'); }
         
@@ -61,40 +61,24 @@ const server = http.createServer((req, res) => {
         }
 
 
-        // ========================================
-        // TODO: Task 3 - Serve Files
-        // ========================================
-        // Read the file and send it to the client
-        // Complete the code below:
         
-        // Step 1: Get the file extension (e.g., '.html', '.css')
         const extname = path.extname(filePath);
-        
-        // Step 2: Get the content type from MIME_TYPES object
         const contentType = MIME_TYPES[extname] || 'text/html';
 
-        // Step 3: Read the file
         fs.readFile(filePath, (err, content) => {
             if (err) {
                 if (err.code === 'ENOENT') {
-                    // File not found
                     handle404(res);
                 } else {
-                    // Server error
                     handleServerError(res, err);
                 }
             } else {
-                // TODO: Send success response
-                // Use res.writeHead() to set status code 200 and Content-Type header
-                // Use res.end() to send the file content
-                
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(content, 'utf-8');
             }
         });
 
     } catch (error) {
-        // Catch any unexpected errors
         handleServerError(res, error);
     }
 });
@@ -145,10 +129,6 @@ function handleServerError(res, error) {
 }
 
 
-// ========================================
-// TODO: Task 1 - Start the Server
-// ========================================
-// Start listening for requests on PORT 3000
 server.listen(PORT, () => {
    console.log(`Server is running on http://localhost:${PORT}`);
 });
