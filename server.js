@@ -1,4 +1,4 @@
-// Määrittele ensin kaikki vakiot
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -6,7 +6,7 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'starter', 'public');
 
-// VASTA TÄMÄN JÄLKEEN voit tulostaa niitä
+
 console.log("__dirname:", __dirname);
 console.log("PUBLIC_DIR:", PUBLIC_DIR);
 
@@ -64,7 +64,7 @@ const server = http.createServer((req, res) => {
             if (err) {
                 console.error("Error reading file:", err);
                 if (err.code === 'ENOENT') {
-                    // Yritä ladata 404.html
+
                     const notFoundPath = path.join(PUBLIC_DIR, '404.html');
                     fs.readFile(notFoundPath, (err404, content404) => {
                         if (err404) {
