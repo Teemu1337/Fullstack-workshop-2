@@ -45,14 +45,14 @@ const server = http.createServer((req, res) => {
         }
         else if (req.url.startsWith('/styles/')) {
             filePath = path.join(PUBLIC_DIR, req.url);
-            
-            const resolvedPath = path.resolve(filePath);
-            if (!resolvedPath.startsWith(PUBLIC_DIR)) {
-                return handle404(res);
-            }
+    
+            const normalizedPath = path.normalize(filePath);
+    
+        if (!normalizedPath.startsWith(PUBLIC_DIR)) {
+        console.log("SECURITY: Path traversal attempt blocked!");
+        return handle404(res);
         }
-        else {
-            return handle404(res);
+         filePath = normalizedPath;
         }
 
         console.log("Attempting to read:", filePath);
